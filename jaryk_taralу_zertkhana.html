@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Виртуалды зертхана — Жарықтың түзу сызықты таралуы | 8-сынып Физика</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #06080f;
+    --surface: #0d1020;
+    --surface2: #161b2e;
+    --border: rgba(255,255,255,0.07);
+    --text: #e0e8f8;
+    --text2: #7080a0;
+    --yellow: #ffe066;
+    --yellow-dim: #2a2000;
+    --blue: #5ab4f0;
+    --blue-dim: #0a2040;
+    --teal: #30d09a;
+    --teal-dim: #052a20;
+    --amber: #f0b030;
+    --red: #f06060;
+    --purple: #a080f0;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Nunito', sans-serif; min-height: 100vh; }
+
+  header { background: linear-gradient(135deg, #06080f, #0a1020, #100a06); padding: 28px 32px 22px; border-bottom: 1px solid var(--border); }
+  .badge-h { display: inline-block; background: rgba(255,224,102,0.12); color: var(--yellow); border: 1px solid rgba(255,224,102,0.25); border-radius: 20px; padding: 3px 12px; font-size: 12px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.5px; }
+  header h1 { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+  header p { font-size: 14px; color: var(--text2); font-weight: 600; }
+
+  main { padding: 20px; max-width: 980px; margin: 0 auto; }
+
+  .guide-block { background: #fff; color: #1a1a2e; border-radius: var(--radius); padding: 22px 24px; margin-bottom: 16px; }
+  .g-title { font-size: 15px; font-weight: 800; color: #1a1a2e; margin-bottom: 6px; }
+  .g-desc { font-size: 14px; color: #444; line-height: 1.7; margin-bottom: 16px; border-left: 3px solid #f0b030; padding-left: 12px; }
+  .guide-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media(max-width:600px){ .guide-grid { grid-template-columns: 1fr; } }
+  .guide-section { background: #f5f7fa; border-radius: 10px; padding: 14px 16px; }
+  .guide-section h3 { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: #7a4a00; margin-bottom: 10px; }
+  .guide-section ol { padding-left: 18px; }
+  .guide-section li { font-size: 13px; color: #333; line-height: 1.8; }
+  .q-list { counter-reset: qc; padding-left: 0 !important; list-style: none !important; }
+  .q-list li { counter-increment: qc; font-size: 13px; color: #333; line-height: 1.8; }
+  .q-list li::before { content: counter(qc) ". "; font-weight: 700; color: #7a4a00; }
+  .answer-box { width: 100%; margin-top: 10px; border: 1px solid #d0d7de; border-radius: 8px; padding: 8px 12px; font-size: 13px; font-family: 'Nunito', sans-serif; color: #1a1a2e; resize: vertical; min-height: 80px; background: #fff; }
+  .forms-btn { display: block; margin-top: 12px; background: #7a4a00; color: #fff; text-align: center; padding: 10px 16px; border-radius: 8px; font-size: 14px; font-weight: 700; text-decoration: none; }
+
+  .tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+  .tab-btn { flex: 1; min-width: 120px; padding: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--text2); border-radius: var(--radius-sm); font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+  .tab-btn.active { background: var(--yellow-dim); color: var(--yellow); border-color: rgba(255,224,102,0.3); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 14px; }
+  .panel-title { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text2); margin-bottom: 14px; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  @media(max-width:620px){ .grid2 { grid-template-columns: 1fr; } }
+
+  .sl-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .sl-lbl { font-size: 13px; color: var(--text2); font-weight: 600; white-space: nowrap; min-width: 120px; }
+  input[type=range] { flex: 1; -webkit-appearance: none; height: 4px; border-radius: 2px; background: var(--surface2); outline: none; cursor: pointer; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--yellow); cursor: pointer; border: 2px solid var(--bg); }
+  .sl-val { font-size: 14px; font-weight: 700; min-width: 65px; text-align: right; }
+
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .stat { background: var(--surface2); border-radius: var(--radius-sm); padding: 11px 14px; border: 1px solid var(--border); }
+  .stat .s-lbl { font-size: 11px; color: var(--text2); font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 4px; }
+  .stat .s-val { font-size: 18px; font-weight: 800; }
+
+  canvas { display: block; border-radius: var(--radius-sm); border: 1px solid var(--border); margin: 0 auto; }
+  .canvas-wrap p { font-size: 12px; color: var(--text2); margin-top: 8px; font-weight: 600; text-align: center; }
+
+  .formula-box { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 12px; }
+  .formula-box .f-lbl { font-size: 11px; color: var(--text2); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .formula-box .f-eq { font-family: 'Fira Mono', monospace; font-size: 14px; color: var(--yellow); margin-bottom: 6px; }
+  .formula-box .f-val { font-size: 16px; font-weight: 800; color: var(--amber); }
+
+  .info-panel { background: linear-gradient(135deg, #06080f, #100d00); border: 1px solid rgba(255,224,102,0.12); border-radius: var(--radius); padding: 16px 20px; font-size: 14px; line-height: 1.7; color: #b0a080; margin-bottom: 14px; }
+  .info-panel strong { color: var(--yellow); }
+
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .data-table th { background: var(--surface2); color: var(--text2); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; font-size: 11px; padding: 10px 14px; text-align: left; }
+  .data-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  .data-table tr:last-child td { border-bottom: none; }
+  .hl { color: var(--amber); font-weight: 700; font-family: 'Fira Mono', monospace; }
+
+  footer { text-align: center; padding: 20px; font-size: 12px; color: var(--text2); border-top: 1px solid var(--border); margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge-h">8-СЫНЫП · ФИЗИКА</div>
+  <h1>☀️ Виртуалды зертхана</h1>
+  <p>Жарықтың түзу сызықты таралу заңы · Көлеңке · Жарық сәулесі · Қараңғы және жарты көлеңке</p>
+</header>
+
+<main>
+
+  <div class="guide-block">
+    <div class="g-title">🎯 Зертханалық жұмыс мақсаты</div>
+    <div class="g-desc">Жарықтың түзу сызықты таралу заңын тәжірибе жүзінде тексеру, нүктелік және кеңейтілген жарық көздерінен түзілетін көлеңке мен жарты көлеңкені зерттеу.</div>
+    <div class="guide-grid">
+      <div class="guide-section">
+        <h3>📋 Жұмыс қадамдары</h3>
+        <ol>
+          <li>«Жарық сәулесі» бөлімінде кедергіні жылжытыңыз</li>
+          <li>Жарықтың түзу таралатынын бақылаңыз</li>
+          <li>«Көлеңке» бөлімінде нысан мен экран арақашықтығын реттеңіз</li>
+          <li>Көлеңке өлшемін есептеңіз</li>
+          <li>«Күн тұтылуы» бөлімінде жарты көлеңканы зерттеңіз</li>
+          <li>Нәтижелерді салыстырып, заңды тұжырымдаңыз</li>
+        </ol>
+      </div>
+      <div class="guide-section">
+        <h3>❓ Тапсырма сұрақтары</h3>
+        <ul class="q-list">
+          <li>Жарық неліктен түзу сызықпен таралады?</li>
+          <li>Көлеңке мен жарты көлеңканың айырмашылығы неде?</li>
+          <li>Нысан жарыққа жақындаса, көлеңке қалай өзгереді?</li>
+          <li>Күн тұтылуы қалай түзіледі?</li>
+        </ul>
+        <textarea class="answer-box" placeholder="Жауаптарыңызды осында жазыңыз..."></textarea>
+        <a class="forms-btn" href="https://docs.google.com/forms/d/e/1FAIpQLScCetaji81J_ekCFqiRDKSrpE6Bu439XPO3cZtjFsek2x_oSg/viewform" target="_blank">📝 Жауаптарды Google Forms-қа жіберу ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('ray', this)">🔦 Жарық сәулесі</button>
+    <button class="tab-btn" onclick="switchTab('shadow', this)">🌑 Көлеңке</button>
+    <button class="tab-btn" onclick="switchTab('eclipse', this)">🌘 Күн тұтылуы</button>
+    <button class="tab-btn" onclick="switchTab('pinhole', this)">📷 Камера-обскура</button>
+  </div>
+
+  <!-- TAB 1: Жарық сәулесі -->
+  <div id="tab-ray" class="tab-content active">
+    <div class="grid2">
+      <div class="panel">
+        <div class="panel-title">Параметрлер</div>
+        <div class="sl-row">
+          <span class="sl-lbl">Сәуле саны</span>
+          <input type="range" id="ray-count" min="1" max="7" step="1" value="3">
+          <span class="sl-val" id="ray-count-out" style="color:var(--yellow);">3</span>
+        </div>
+        <div class="sl-row">
+          <span class="sl-lbl">Кедергі орны</span>
+          <input type="range" id="obstacle-x" min="80" max="320" step="5" value="200">
+          <span class="sl-val" id="obstacle-out" style="color:var(--text2);">орта</span>
+        </div>
+        <div class="sl-row">
+          <span class="sl-lbl">Кедергі өлшемі</span>
+          <input type="range" id="obstacle-size" min="10" max="80" step="5" value="40">
+          <span class="sl-val" id="obs-size-out" style="color:var(--blue);">40</span>
+        </div>
+        <div style="margin-top:10px; background:var(--surface2); border-radius:var(--radius-sm); padding:12px; font-size:13px; color:var(--text2); line-height:1.7;">
+          <strong style="color:var(--yellow);">Заң:</strong> Біртекті мөлдір ортада жарық түзу сызықпен таралады. Кедергіге тиген жарық кедергінің артына өтпейді — көлеңке түзіледі.
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Визуализация</div>
+        <div class="canvas-wrap">
+          <canvas id="ray-canvas" width="340" height="220"></canvas>
+          <p>Жарық сәулелері мен кедергі</p>
+        </div>
+      </div>
+    </div>
+    <div class="info-panel" id="ray-info">Сәуле санын және кедергі параметрлерін реттеңіз.</div>
+  </div>
+
+  <!-- TAB 2: Көлеңке -->
+  <div id="tab-shadow" class="tab-content">
+    <div class="grid2">
+      <div class="panel">
+        <div class="panel-title">Параметрлер</div>
+        <div class="sl-row">
+          <span class="sl-lbl">Нысан биіктігі h (м)</span>
+          <input type="range" id="obj-h" min="0.1" max="3" step="0.1" value="1">
+          <span class="sl-val" id="obj-h-out" style="color:var(--yellow);">1.0 м</span>
+        </div>
+        <div class="sl-row">
+          <span class="sl-lbl">Нысан — жарық (м)</span>
+          <input type="range" id="d1" min="0.5" max="5" step="0.1" value="2">
+          <span class="sl-val" id="d1-out" style="color:var(--amber);">2.0 м</span>
+        </div>
+        <div class="sl-row">
+          <span class="sl-lbl">Нысан — экран (м)</span>
+          <input type="range" id="d2" min="0.5" max="8" step="0.1" value="3">
+          <span class="sl-val" id="d2-out" style="color:var(--blue);">3.0 м</span>
+        </div>
+        <div class="stat-grid" style="margin-top:10px;">
+          <div class="stat">
+            <div class="s-lbl">Көлеңке H (м)</div>
+            <div class="s-val" id="shadow-h" style="color:var(--teal);">—</div>
+          </div>
+          <div class="stat">
+            <div class="s-lbl">Үлкейту</div>
+            <div class="s-val" id="shadow-k" style="color:var(--purple);">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Визуализация</div>
+        <div class="canvas-wrap">
+          <canvas id="shadow-canvas" width="340" height="220"></canvas>
+          <p>Нүктелік жарық көзі — нысан — экран</p>
+        </div>
+      </div>
+    </div>
+    <div class="formula-box">
+      <div class="f-lbl">Көлеңке өлшемі формуласы</div>
+      <div class="f-eq">H / h = (d₁ + d₂) / d₁</div>
+      <div class="f-val" id="shadow-formula">—</div>
+    </div>
+    <div class="info-panel" id="shadow-info">Параметрлерді реттеп, көлеңке өлшемін бақылаңыз.</div>
+  </div>
+
+  <!-- TAB 3: Күн тұтылуы -->
+  <div id="tab-eclipse" class="tab-content">
+    <div class="grid2">
+      <div class="panel">
+        <div class="panel-title">Параметрлер</div>
+        <div class="sl-row">
+          <span class="sl-lbl">Ай орны</span>
+          <input type="range" id="moon-x" min="100" max="280" step="5" value="190">
+          <span class="sl-val" id="moon-x-out" style="color:var(--text2);">орта</span>
+        </div>
+        <div class="sl-row">
+          <span class="sl-lbl">Ай өлшемі</span>
+          <input type="range" id="moon-size" min="15" max="50" step="1" value="28">
+          <span class="sl-val" id="moon-size-out" style="color:var(--blue);">28</span>
+        </div>
+        <div class="stat-grid" style="margin-top:10px;">
+          <div class="stat">
+            <div class="s-lbl">Толық тұтылу</div>
+            <div class="s-val" id="eclipse-full" style="color:var(--red);">—</div>
+          </div>
+          <div class="stat">
+            <div class="s-lbl">Жарты тұтылу</div>
+            <div class="s-val" id="eclipse-part" style="color:var(--amber);">—</div>
+          </div>
+        </div>
+        <div style="margin-top:10px; background:var(--surface2); border-radius:var(--radius-sm); padding:12px; font-size:13px; color:var(--text2); line-height:1.7;">
+          <strong style="color:var(--yellow);">Толық тұтылу</strong> — Ай Күнді толық жабады (қараңғы көлеңке).<br>
+          <strong style="color:var(--amber);">Жарты тұтылу</strong> — Күн жартылай жабылады (жарты көлеңке).
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Визуализация</div>
+        <div class="canvas-wrap">
+          <canvas id="eclipse-canvas" width="340" height="220"></canvas>
+          <p>Күн тұтылуы</p>
+        </div>
+      </div>
+    </div>
+    <div class="info-panel" id="eclipse-info">Айдың орны мен өлшемін реттеңіз.</div>
+  </div>
+
+  <!-- TAB 4: Камера-обскура -->
+  <div id="tab-pinhole" class="tab-content">
+    <div class="grid2">
+      <div class="panel">
+        <div class="panel-title">Параметрлер</div>
+        <div class="sl-row">
+          <span class="sl-lbl">Тесік өлшемі</span>
+          <input type="range" id="hole-size" min="1" max="20" step="1" value="4">
+          <span class="sl-val" id="hole-out" style="color:var(--yellow);">4</span>
+        </div>
+        <div class="sl-row">
+          <span class="sl-lbl">Камера тереңдігі</span>
+          <input type="range" id="cam-depth" min="50" max="200" step="10" value="120">
+          <span class="sl-val" id="depth-out" style="color:var(--blue);">120</span>
+        </div>
+        <div style="margin-top:10px; background:var(--surface2); border-radius:var(--radius-sm); padding:12px; font-size:13px; color:var(--text2); line-height:1.7;">
+          <strong style="color:var(--yellow);">Камера-обскура</strong> — жарықтың түзу таралу принципіне негізделген алғашқы фотоаппарат прототипі. Кескін кері және айналған түрде шығады.
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Визуализация</div>
+        <div class="canvas-wrap">
+          <canvas id="pinhole-canvas" width="340" height="220"></canvas>
+          <p>Камера-обскура принципі</p>
+        </div>
+      </div>
+    </div>
+    <div class="info-panel">
+      <strong>Жарықтың түзу таралуы</strong> — кескін кері айналып шығады, өйткені жоғарыдан келген жарық сәулесі тесік арқылы өтіп, экранның төменгі жағына түседі, ал төменнен келген сәуле жоғарыға барады.
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Жарықтың түзу таралуының дәлелдері</div>
+      <table class="data-table">
+        <thead>
+          <tr><th>Құбылыс</th><th>Түсіндіру</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>☀️ Күн сәулесі</td><td>Бұлт саңылауынан түзу шоғырланып өтеді</td></tr>
+          <tr><td>🌑 Күн тұтылуы</td><td>Ай Жер мен Күн арасына кіргенде жарық бөгеледі</td></tr>
+          <tr><td>📷 Камера-обскура</td><td>Кескін кері шығады — жарық тура таралады</td></tr>
+          <tr><td>🌲 Ағаш көлеңкесі</td><td>Жарық бұрылмайды, ағаш арты қараңғы</td></tr>
+          <tr><td>🔦 Фонарь</td><td>Сәуле конус тәрізді тура таралады</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</main>
+<footer>8-сынып Физика · Виртуалды зертхана · Жарықтың түзу сызықты таралу заңы</footer>
+
+<script>
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// TAB 1: Ray
+function drawRay() {
+  const c = document.getElementById('ray-canvas');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,340,220);
+  ctx.fillStyle='#06080f'; ctx.fillRect(0,0,340,220);
+
+  const rayCount = parseInt(document.getElementById('ray-count').value);
+  const obsX = parseInt(document.getElementById('obstacle-x').value);
+  const obsSize = parseInt(document.getElementById('obstacle-size').value);
+  document.getElementById('ray-count-out').textContent = rayCount;
+  document.getElementById('obstacle-out').textContent = obsX < 150 ? 'жақын' : obsX > 250 ? 'алыс' : 'орта';
+  document.getElementById('obs-size-out').textContent = obsSize;
+
+  const srcX = 20, srcY = 110;
+  const spread = 60;
+
+  ctx.fillStyle='#ffe066'; ctx.beginPath(); ctx.arc(srcX, srcY, 10, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle='rgba(255,224,102,0.3)'; ctx.beginPath(); ctx.arc(srcX, srcY, 18, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle='#ffe066'; ctx.font='10px Nunito'; ctx.textAlign='center'; ctx.fillText('Жарық', srcX, srcY+26);
+
+  ctx.fillStyle='#5ab4f0'; ctx.fillRect(obsX-6, 110-obsSize/2, 12, obsSize);
+  ctx.strokeStyle='#5ab4f0'; ctx.lineWidth=1; ctx.strokeRect(obsX-6, 110-obsSize/2, 12, obsSize);
+  ctx.fillStyle='#5ab4f0'; ctx.font='10px Nunito'; ctx.textAlign='center'; ctx.fillText('Кедергі', obsX, 110+obsSize/2+14);
+
+  for (let i=0; i<rayCount; i++) {
+    const angle = rayCount===1 ? 0 : -spread/2 + (spread/(rayCount-1||1))*i;
+    const rad = angle * Math.PI / 180;
+    const dx = Math.cos(rad), dy = Math.sin(rad);
+
+    let blocked = false;
+    let bx = srcX, by = srcY;
+    for (let d=0; d<340; d+=2) {
+      const nx = srcX + dx*d, ny = srcY + dy*d;
+      if (nx >= obsX-6 && nx <= obsX+6 && ny >= 110-obsSize/2 && ny <= 110+obsSize/2) {
+        blocked = true; bx = nx; by = ny; break;
+      }
+      if (nx > 335) { bx = nx; by = ny; break; }
+    }
+
+    ctx.strokeStyle='rgba(255,224,102,0.85)'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(srcX, srcY); ctx.lineTo(bx, by); ctx.stroke();
+
+    if (!blocked) {
+      ctx.strokeStyle='rgba(255,224,102,0.3)'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(bx+50, by+dy*50); ctx.stroke();
+    }
+  }
+
+  ctx.strokeStyle='rgba(90,180,240,0.2)'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(340,0); ctx.lineTo(340,220); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='#7080a0'; ctx.font='10px Nunito'; ctx.textAlign='center'; ctx.fillText('Экран', 335, 210);
+
+  document.getElementById('ray-info').innerHTML =
+    `Жарық сәулелері <strong>түзу сызықпен</strong> таралады. Кедергіге тиген сәулелер одан өте алмайды — артында <strong>көлеңке</strong> түзіледі. Кедергі өлшемі: ${obsSize} бірлік.`;
+}
+
+// TAB 2: Shadow
+function drawShadow() {
+  const c = document.getElementById('shadow-canvas');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,340,220);
+  ctx.fillStyle='#06080f'; ctx.fillRect(0,0,340,220);
+
+  const h = parseFloat(document.getElementById('obj-h').value);
+  const d1 = parseFloat(document.getElementById('d1').value);
+  const d2 = parseFloat(document.getElementById('d2').value);
+  document.getElementById('obj-h-out').textContent = h.toFixed(1) + ' м';
+  document.getElementById('d1-out').textContent = d1.toFixed(1) + ' м';
+  document.getElementById('d2-out').textContent = d2.toFixed(1) + ' м';
+
+  const H = h * (d1 + d2) / d1;
+  const k = ((d1 + d2) / d1).toFixed(2);
+  document.getElementById('shadow-h').textContent = H.toFixed(2) + ' м';
+  document.getElementById('shadow-k').textContent = k + '×';
+  document.getElementById('shadow-formula').textContent =
+    `H = ${h.toFixed(1)} × (${d1.toFixed(1)} + ${d2.toFixed(1)}) / ${d1.toFixed(1)} = ${H.toFixed(2)} м`;
+
+  const scale = 50;
+  const srcX = 20, srcY = 110;
+  const objX = 20 + d1*scale;
+  const objH = Math.min(h*scale, 90);
+  const screenX = Math.min(320, 20 + (d1+d2)*scale);
+  const shadowH = Math.min(H*scale, 180);
+
+  ctx.fillStyle='#ffe066'; ctx.beginPath(); ctx.arc(srcX, srcY, 8, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle='#ffe066'; ctx.font='10px Nunito'; ctx.textAlign='center'; ctx.fillText('Жарық', srcX, srcY+20);
+
+  ctx.fillStyle='#5ab4f0';
+  ctx.fillRect(objX-4, srcY-objH/2, 8, objH);
+  ctx.fillStyle='#5ab4f0'; ctx.font='10px Nunito'; ctx.textAlign='center';
+  ctx.fillText('Нысан', objX, srcY+objH/2+14);
+  ctx.fillText('h='+h.toFixed(1)+'м', objX, srcY-objH/2-6);
+
+  ctx.strokeStyle='rgba(90,180,240,0.6)'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(screenX,0); ctx.lineTo(screenX,220); ctx.stroke();
+  ctx.fillStyle='#7080a0'; ctx.font='10px Nunito'; ctx.textAlign='center'; ctx.fillText('Экран', screenX, 210);
+
+  ctx.fillStyle='rgba(0,0,0,0.7)';
+  ctx.fillRect(screenX-3, srcY-shadowH/2, 6, shadowH);
+  ctx.fillStyle='#30d09a'; ctx.font='10px Nunito'; ctx.textAlign='left';
+  ctx.fillText('H='+H.toFixed(2)+'м', screenX+8, srcY);
+
+  ctx.strokeStyle='rgba(255,224,102,0.5)'; ctx.lineWidth=1; ctx.setLineDash([4,3]);
+  ctx.beginPath();
+  ctx.moveTo(srcX, srcY);
+  ctx.lineTo(objX, srcY-objH/2);
+  ctx.lineTo(screenX, srcY-shadowH/2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(srcX, srcY);
+  ctx.lineTo(objX, srcY+objH/2);
+  ctx.lineTo(screenX, srcY+shadowH/2);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  document.getElementById('shadow-info').innerHTML =
+    `Нысан биіктігі h = ${h.toFixed(1)} м, жарыққа дейін d₁ = ${d1.toFixed(1)} м, экранға дейін d₂ = ${d2.toFixed(1)} м. Көлеңке биіктігі: <strong>H = ${H.toFixed(2)} м</strong> (${k}× үлкейген).`;
+}
+
+// TAB 3: Eclipse
+function drawEclipse() {
+  const c = document.getElementById('eclipse-canvas');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,340,220);
+  ctx.fillStyle='#06080f'; ctx.fillRect(0,0,340,220);
+
+  const moonX = parseInt(document.getElementById('moon-x').value);
+  const moonR = parseInt(document.getElementById('moon-size').value);
+  document.getElementById('moon-x-out').textContent = moonX < 160 ? 'жақын' : moonX > 220 ? 'алыс' : 'орта';
+  document.getElementById('moon-size-out').textContent = moonR;
+
+  const sunX = 30, sunY = 110, sunR = 36;
+  const earthX = 310, earthY = 110, earthR = 20;
+
+  const grad = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, sunR*2);
+  grad.addColorStop(0,'rgba(255,240,100,0.4)');
+  grad.addColorStop(1,'transparent');
+  ctx.fillStyle=grad; ctx.beginPath(); ctx.arc(sunX,sunY,sunR*2,0,Math.PI*2); ctx.fill();
+
+  ctx.fillStyle='#ffe066'; ctx.beginPath(); ctx.arc(sunX,sunY,sunR,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#ffe066'; ctx.font='bold 10px Nunito'; ctx.textAlign='center'; ctx.fillText('КҮН',sunX,sunY+4);
+
+  ctx.fillStyle='#3050a0'; ctx.beginPath(); ctx.arc(earthX,earthY,earthR,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#5ab4f0'; ctx.font='bold 9px Nunito'; ctx.textAlign='center'; ctx.fillText('ЖЕР',earthX,earthY+4);
+
+  ctx.fillStyle='#aaa'; ctx.beginPath(); ctx.arc(moonX,sunY,moonR,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#888'; ctx.font='9px Nunito'; ctx.textAlign='center'; ctx.fillText('АЙ',moonX,sunY+4);
+
+  ctx.strokeStyle='rgba(255,224,102,0.15)'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(sunX+sunR, sunY-moonR-10); ctx.lineTo(earthX, sunY-earthR-10); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(sunX+sunR, sunY+moonR+10); ctx.lineTo(earthX, sunY+earthR+10); ctx.stroke();
+  ctx.setLineDash([]);
+
+  const fullEclipse = moonX > 150 && moonX < 240 && moonR >= 20;
+  const partEclipse = moonX > 100 && moonX < 280;
+  document.getElementById('eclipse-full').textContent = fullEclipse ? '✅ Бар' : '❌ Жоқ';
+  document.getElementById('eclipse-part').textContent = partEclipse ? '✅ Бар' : '❌ Жоқ';
+
+  const shadowAlpha = fullEclipse ? 0.85 : partEclipse ? 0.4 : 0.1;
+  ctx.fillStyle=`rgba(0,0,0,${shadowAlpha})`;
+  ctx.beginPath(); ctx.arc(earthX, earthY, earthR, 0, Math.PI*2); ctx.fill();
+
+  document.getElementById('eclipse-info').innerHTML = fullEclipse
+    ? `<strong>Толық күн тұтылуы!</strong> Ай Күнді толық жауып тұр. Жер бетіндегі адамдар толық қараңғылықта қалады. Бұл жарықтың түзу таралуының нәтижесі.`
+    : partEclipse
+    ? `<strong>Жарты күн тұтылуы.</strong> Ай Күнді ішінара жауып тұр. Жер бетінде жарты көлеңке (полутень) байқалады.`
+    : `Ай Жер мен Күн арасында емес — тұтылу жоқ. Айды жылжытыңыз.`;
+}
+
+// TAB 4: Pinhole
+function drawPinhole() {
+  const c = document.getElementById('pinhole-canvas');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,340,220);
+  ctx.fillStyle='#06080f'; ctx.fillRect(0,0,340,220);
+
+  const holeSize = parseInt(document.getElementById('hole-size').value);
+  const depth = parseInt(document.getElementById('cam-depth').value);
+  document.getElementById('hole-out').textContent = holeSize;
+  document.getElementById('depth-out').textContent = depth;
+
+  const wallX = 120;
+  const camEndX = wallX + depth;
+  const holeY = 110;
+
+  ctx.fillStyle='#ffe066'; ctx.beginPath(); ctx.arc(20,80,10,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#f06060'; ctx.beginPath(); ctx.arc(20,140,8,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='#ffe066'; ctx.font='9px Nunito'; ctx.textAlign='center'; ctx.fillText('↑',20,70);
+  ctx.fillStyle='#f06060'; ctx.fillText('↓',20,155);
+
+  ctx.fillStyle='#2a3050'; ctx.fillRect(wallX-5,0,10,holeY-holeSize/2);
+  ctx.fillRect(wallX-5,holeY+holeSize/2,10,220-holeY-holeSize/2);
+  ctx.strokeStyle='#5ab4f0'; ctx.lineWidth=1; ctx.strokeRect(wallX-5,0,10,holeY-holeSize/2);
+  ctx.strokeRect(wallX-5,holeY+holeSize/2,10,220-holeY-holeSize/2);
+  ctx.fillStyle='#7080a0'; ctx.font='9px Nunito'; ctx.textAlign='center'; ctx.fillText('Тесік',wallX,200);
+
+  ctx.fillStyle='#1a2030'; ctx.fillRect(wallX+5,20,depth-5,180);
+  ctx.strokeStyle='#2a3a60'; ctx.lineWidth=1; ctx.strokeRect(wallX+5,20,depth-5,180);
+
+  if (camEndX < 335) {
+    ctx.fillStyle='#2a3050'; ctx.fillRect(camEndX,20,6,180);
+    ctx.fillStyle='#ffe066'; ctx.fillRect(camEndX+1, holeY+5, 4, 40);
+    ctx.fillStyle='#f06060'; ctx.fillRect(camEndX+1, holeY-45, 4, 40);
+    ctx.fillStyle='#7080a0'; ctx.font='9px Nunito'; ctx.textAlign='center'; ctx.fillText('Экран',camEndX,210);
+    ctx.fillStyle='#ffe066'; ctx.font='8px Nunito'; ctx.fillText('↓',camEndX+3,holeY+55);
+    ctx.fillStyle='#f06060'; ctx.fillText('↑',camEndX+3,holeY-48);
+  }
+
+  ctx.strokeStyle='rgba(255,224,102,0.6)'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(20,80); ctx.lineTo(wallX,holeY); ctx.lineTo(camEndX, holeY+40); ctx.stroke();
+  ctx.strokeStyle='rgba(240,96,96,0.6)';
+  ctx.beginPath(); ctx.moveTo(20,140); ctx.lineTo(wallX,holeY); ctx.lineTo(camEndX, holeY-40); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='#7080a0'; ctx.font='10px Nunito'; ctx.textAlign='left';
+  ctx.fillText('Кескін кері айналады!',wallX+10,15);
+}
+
+function updateAll() {
+  drawRay(); drawShadow(); drawEclipse(); drawPinhole();
+}
+
+['ray-count','obstacle-x','obstacle-size'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', drawRay);
+});
+['obj-h','d1','d2'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', drawShadow);
+});
+['moon-x','moon-size'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', drawEclipse);
+});
+['hole-size','cam-depth'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', drawPinhole);
+});
+
+updateAll();
+</script>
+</body>
+</html>
